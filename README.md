@@ -2,8 +2,10 @@
 
 arborescence
 /projet_biblio
-|---server-biblio
-|---front-biblio
+  |
+  |---server-biblio
+  |
+  |---front-biblio
 
 pour lancer le back --> dans le fichier back : "docker-compose up"
 si processus déjà en cours :
