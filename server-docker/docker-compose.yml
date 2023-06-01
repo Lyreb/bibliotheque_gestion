@@ -1,0 +1,54 @@
+version: '3'
+
+#Déclaration des services créés
+services:
+    mmi-library:
+        image: "maven:3.8.4-openjdk-17"
+        #redefinition de la config d'accès à mongo
+        environment:
+            spring.data.mongodb.host: mongo
+            spring.data.mongodb.authentication-database: admin
+            spring.data.mongodb.username: admin
+            spring.data.mongodb.password: ADJ3553qhl23ahA
+            spring.data.mongodb.database: mmilibsrv
+        #utilisation d'un volume pour le cache maven et d'un binding pour le dossier projet
+        volumes:
+            - cachemaven:/root/.m2
+            - ./:/usr/src/mmiLibraryServer
+            #./maven-proxy-settings.xml:/usr/share/maven/ref/settings.xml:ro
+        #définition du working dir
+        working_dir: /usr/src/mmiLibraryServer
+        #exposition et mapping au port de la machine hote : ACCES PUBLIQUE
+        ports:
+            - 8080:8080
+        #Redefinition de la commande de lancement
+        command: mvn spring-boot:run
+        #Declare les conteneur dont myproject dépend, pour l'ordre de lancement
+        depends_on:
+            - mongo
+        #Accès sur réseau privé virtuel pour la connexion avec les autres conteneur
+        networks:
+            mmilibnet:
+                
+    mongo:
+        image: mongo:4.2
+        restart: always
+        #variables d'environnement
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: admin
+            MONGO_INITDB_ROOT_PASSWORD: ADJ3553qhl23ahA
+            MONGO_INITDB_DATABASE: mmilibsrv
+        #vutilisation d'un volume pour les données de la bd
+        volumes:
+            - mongostorage:/data/db
+        #Accès sur réseau privé virtuel pour la connexion avec les autres conteneur
+        networks:
+            mmilibnet:
+
+#Déclaration des volumes pour permettre un réutilisation dans d'autres services
+volumes:
+    cachemaven:
+    mongostorage:
+        
+networks:
+   mmilibnet:
