@@ -1,0 +1,12 @@
+{"users"[{
+        "id": "61dbc9a116781975a3d10dc7",
+        "name": "Planck",
+        "firstname": "Max",
+        "birthday": "1968-09-04"
+    },{
+        "id": "61dbc9a116781975a3d10dc8",
+        "name": "Solvay",
+        "firstname": "Ernest",
+        "birthday": "1999-12-10"
+    }]
+}
